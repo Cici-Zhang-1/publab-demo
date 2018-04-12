@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Publab</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div class="rol">
+        <div class="col-md-4">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#bar" aria-controls="bar" role="tab" data-toggle="tab">Bar</a></li>
+                <li role="presentation"><a href="#box" aria-controls="box" role="tab" data-toggle="tab">Box</a></li>
+                <li role="presentation"><a href="#point" aria-controls="point" role="tab" data-toggle="tab">Point</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="bar">
+                    <form action="r.php" method="get" role="form">
+                        <input type="hidden" name="r" value="bar" />
+                        <div class="form-group">
+                            <label for="DataOne">Data 1</label>
+                            <input name="one" type="text" class="form-control" id="DataOne" value="15" placeholder="Data 1">
+                        </div>
+                        <div class="form-group">
+                            <label for="DataOne">Data 2</label>
+                            <input name="two" type="text" class="form-control" id="DataTwo" value="20" placeholder="Data 2">
+                        </div>
+                        <div class="form-group">
+                            <label for="DataOne">Data 3</label>
+                            <input name="three" type="text" class="form-control" id="DataThree" value="8" placeholder="Data 3">
+                        </div>
+                        <div class="form-group">
+                            <label for="DataOne">Data 4</label>
+                            <input name="four" type="text" class="form-control" id="DataFour" value="33" placeholder="Data 4">
+                        </div>
+                        <div class="form-group">
+                            <label for="DataOne">Data 5</label>
+                            <input name="five" type="text" class="form-control" id="DataFive" value="45" placeholder="Data 5">
+                        </div>
+                        <button class="btn btn-default" type="reset">Reset</button>
+                        <button class="btn btn-primary" type="submit">Generate</button>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="box">
+                    <form action="r.php" method="get" role="form">
+                        <input type="hidden" name="r" value="box" />
+                        <div class="form-group">
+                            <label for="Data">Data</label>
+                            <input name="data" type="text" class="form-control" id="Data" value="mtcars" placeholder="mtcars">
+                        </div>
+                        <div class="form-group">
+                            <label for="ParamOne">Param 1</label>
+                            <input name="one" type="text" class="form-control" id="ParamOne" value="mpg" placeholder="mpg...">
+                        </div>
+                        <div class="form-group">
+                            <label for="ParamOne">Param 2</label>
+                            <input name="two" type="text" class="form-control" id="ParamTwo" value="cyl" placeholder="cyl...">
+                        </div>
+                        <div class="form-group">
+                            <label for="Xlab">Xlab</label>
+                            <input name="xlab" type="text" class="form-control" id="Xlab" value="Number of Cylinders" placeholder="Number of Cylinders">
+                        </div>
+                        <div class="form-group">
+                            <label for="Ylab">Ylab</label>
+                            <input name="ylab" type="text" class="form-control" id="Ylab" value="Miles Per Gallon" placeholder="Miles Per Gallon">
+                        </div>
+                        <div class="form-group">
+                            <label for="Main">Main</label>
+                            <input name="main" type="text" class="form-control" id="Main" value="Mileage Data" placeholder="Mileage Data">
+                        </div>
+                        <button class="btn btn-default" type="reset">Reset</button>
+                        <button class="btn btn-primary" type="submit">Generate</button>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="point">
+                    <form action="r.php" method="get" role="form">
+                        <input type="hidden" name="r" value="point" />
+                        <div class="form-group">
+                            <input name="linear_line" type="checkbox" class="form-control" id="linearLine" value="1" >
+                            <label for="linearLine">Linear line fitting</label>
+                        </div>
+                        <div class="form-group">
+                            <input name="smooth_curve" type="checkbox" class="form-control" id="smoothCurve" value="1" >
+                            <label for="smoothCurve">Smooth curve fitting</label>
+                        </div>
+                        <button class="btn btn-default" type="reset">Reset</button>
+                        <button class="btn btn-primary" type="submit">Generate</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <img id="publabImg" src="smile.png" class="img-responsive" />
+        </div>
+    </div>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script type="module">
+    (function ($,window,undefined) {
+        $('form').each(function(i,v){
+            $(this).on('submit', function(e) {
+                e.preventDefault();
+                let data = {};
+                $(this).find('input[type="hidden"], input[type="text"], input[type="checkbox"]:checked').each(function (ii, iv) {
+                    data[iv.name] = iv.value;
+                })
+                $.ajax({
+                    async: true,
+                    data: data,
+                    dataType: 'json',
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    success: function(msg) {
+                        if (!msg.code) {
+                            $('#publabImg').attr('src', msg.contents.uri + '?_=' + Math.random());
+                        }
+                    },
+                    error: function(){
+                        alert('Error happened');
+                    }
+                });
+            })
+        });
+    })(jQuery,window,undefined);
+</script>
+</body>
+</html>

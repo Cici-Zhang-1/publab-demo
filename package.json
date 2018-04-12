@@ -1,0 +1,10 @@
+{
+  "name": "publab-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "3.3.7",
+    "jquery": "2.1.4"
+  }
+}
